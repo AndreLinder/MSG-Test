@@ -1,5 +1,9 @@
 package com.example.msg_test;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,11 +12,13 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+
 import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String host = "192.168.50.219";
+    private String host = "andrelinder.ddns.net";
     private int port = 8005;
     private Socket S = null;
     private Connection connect = null;
@@ -24,6 +30,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ViewPager viewPager = findViewById(R.id.viewPager);
+
+        AuthenticationPagerAdapter pagerAdapter = new AuthenticationPagerAdapter(getSupportFragmentManager());
+        pagerAdapter.addFragmet(new LoginFragment());
+        pagerAdapter.addFragmet(new RegisterFragment());
+        viewPager.setAdapter(pagerAdapter);
     }
 
     //Авторизация пользователя
@@ -50,6 +63,28 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).start();
+    }
+
+    class AuthenticationPagerAdapter extends FragmentPagerAdapter {
+        private ArrayList<Fragment> fragmentList = new ArrayList<>();
+
+        public AuthenticationPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            return fragmentList.get(i);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
+        }
+
+        void addFragmet(Fragment fragment) {
+            fragmentList.add(fragment);
+        }
     }
 }
 
