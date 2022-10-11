@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/image_chat"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="image"
+        app:layout_constraintWidth_percent="0.25"
+        android:background="@drawable/button_style"
+        tools:ignore="MissingConstraints" />
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/chat_button"
+        app:layout_constraintLeft_toRightOf="@+id/image_chat"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="item"
+        app:layout_constraintWidth_percent="0.75"
+        android:background="@drawable/button_style"
+        tools:ignore="MissingConstraints" />
+
+</android.support.constraint.ConstraintLayout>
