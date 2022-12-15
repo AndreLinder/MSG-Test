@@ -16,12 +16,13 @@ import java.io.IOException;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.security.*;
 
 import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String host = "andrelinder.ddns.net";
+    private String host = "andre-linder-msg.asuscomm.com";
     private int port = 8005;
     private Socket S = null;
     private Connection connect = null;
@@ -50,16 +51,22 @@ public class MainActivity extends AppCompatActivity {
         login = findViewById(R.id.login);
         password = findViewById(R.id.password);
         connect = new Connection(host, port);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
 
                 try{
+                    MessageDigest md5 = MessageDigest.getInstance("MD5");
                     connect.openConnection();
-                    String text = "01#"+login.getText()+"~"+password.getText()+"~";
-                    connect.sendData(text.getBytes(StandardCharsets.UTF_8));
+                    String p = password.getText() + "";
+                    byte[] pass = p.getBytes(StandardCharsets.UTF_8);
+                    byte[] theMD5digest = md5.digest(pass);
+                    p = new String(theMD5digest, StandardCharsets.UTF_8);
+                    String text = "01#"+login.getText()+"~"+p+"~";
+                    connect.sendData(text.getBytes(StandardCharsets.UTF_16LE));
                     byte[] data = connect.recieveData();
-                    text = new String(data, StandardCharsets.UTF_8);
+                    text = new String(data, StandardCharsets.UTF_16LE);
                     login.setText(text);
                     connect.closeConnection();
                         Log.e("Server","Successfull");
